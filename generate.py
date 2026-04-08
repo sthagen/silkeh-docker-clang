@@ -49,7 +49,7 @@ class DebianRepo:
     def _exists(self, architecture):
         res = requests.get(self._release_url(architecture))
         if res.status_code == 200:
-            return True
+            return len(res.text) > 0
 
         if res.status_code == 404:
             return False
@@ -57,7 +57,7 @@ class DebianRepo:
         raise Exception(f'Unexpected status code: {res.status_code}')
 
     def _release_url(self, architecture):
-        return f'{self.url}/dists/{self.distribution}/{self.component}/binary-{architecture}/Release'
+        return f'{self.url}/dists/{self.distribution}/{self.component}/binary-{architecture}/Packages'
 
 
 class Builder:
